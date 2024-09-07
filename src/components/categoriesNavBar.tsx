@@ -1,20 +1,21 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { MdExpandMore } from "react-icons/md";
-const CategoriesNavBar :React.FC= () => {
-  interface Sublink{
-    id:string,
-    label:string,
-    link:string
+import { useNavigate } from "react-router-dom";
+const CategoriesNavBar: React.FC = () => {
+  const navigate = useNavigate();
+  interface Sublink {
+    id: string;
+    label: string;
+    link: string;
   }
-  interface Categories{
-    id:string,
-    label:string,
-    link:string,
-    sublinks:Sublink[]|null
+  interface Categories {
+    id: string;
+    label: string;
+    link: string;
+    sublinks: Sublink[] | null;
   }
-  const [Categories,setCategories] = useState<Categories[]>([
+  const [Categories, setCategories] = useState<Categories[]>([
     {
       id: "1",
       label: "women",
@@ -139,119 +140,30 @@ const CategoriesNavBar :React.FC= () => {
       sublinks: null,
     },
   ]);
-  const [visibleItems, setVisibleItems] = useState<Categories[]>([]);
-  const [hiddenItems, setHiddenItems] = useState<Categories[]>([]);
-  const [showRest, setShowRest] = useState<boolean>(false);
-  const navigate = useNavigate();
-  const updateVisibleItems:()=>void = () => {
-    if (window.innerWidth < 640) {
-      // Small devices
-      setVisibleItems(Categories.slice(0, 4));
-      setHiddenItems(Categories.slice(4));
-    } else {
-      // Large devices
-      setVisibleItems(Categories.slice(0, 9));
-      setHiddenItems(Categories.slice(9));
-    }
-  };
-
-  useEffect(() => {
-    updateVisibleItems();
-    window.addEventListener("resize", updateVisibleItems);
-
-    return () => window.removeEventListener("resize", updateVisibleItems);
-  }, [Categories]);
+  const [hiddenCat, setHiddenCat] = useState<Categories[]>([]);
+  const [showMore, setShowMore] = useState<boolean>(false);
   return (
     <>
-      <div className="bg-Sapphire w-full overflow-hidden h-8 flex items-center text-white md:px-14 justify-around text-xs sm:text-base ">
-        {visibleItems.map((Category) => {
-          return (
-            <div
-              key={Category.id}
-              className="group hover:bg-white h-full hover:text-Sapphire "
-            >
-              <button
-                onClick={() => {
-                  navigate(Category.link);
-                }}
-                className="w-full h-full text-center px-2"
-              >
-                {Category.label}
-              </button>
-              {Category.sublinks && (
-                <div className="absolute group-hover:block hidden hover:block text-center cursor-pointer text-sm text-gray-600 bg-gray-100 w-auto p-3 shadow-md">
-                  <div
-                    className={`grid gap-8 ${
-                      Category.sublinks.length === 1
-                        ? "grid-cols-1"
-                        : Category.sublinks.length === 2
-                        ? "grid-cols-2"
-                        : Category.sublinks.length === 3
-                        ? "grid-cols-3"
-                        : Category.sublinks.length === 4
-                        ? "grid-cols-4"
-                        : "grid-cols-5"
-                    }`}
-                  >
-                    {Category.sublinks.map((slink) => (
-                      <div
-                        key={slink.id}
-                        onClick={() => navigate(slink.link)}
-                        className="p-2"
-                      >
-                        {slink.label}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-        {hiddenItems.length > 0 && (
-          <button
-            onClick={() => {
-              setShowRest(!showRest);
-            }}
-          >
-            <div className="flex items-center">
-              more
-              <MdExpandMore className="mt-1 ml-1" />
-            </div>
-          </button>
-        )}
-      </div>
-      {showRest && (
-        <div className="bg-Sapphire w-full overflow-hidden min-h-8 flex flex-wrap items-center text-white md:px-14 justify-around text-xs sm:text-base ">
-          {hiddenItems.map((Category) => {
+      <div className="bg-Sapphire w-full h-8 text-white flex items-center justify-around sm:text-base text-sm">
+        {/* showing less categories for small screen */}
+        <div className="flex sm:hidden  items-center justify-evenly h-full w-full">
+          {Categories.slice(0, 4).map((Category: Categories) => {
             return (
               <div
                 key={Category.id}
-                className="group hover:bg-white h-full hover:text-Sapphire "
+                className="group hover:bg-gray-100  h-full hover:text-Sapphire "
               >
                 <button
                   onClick={() => {
-                    navigate(Category.link);
+                    if (!Category.sublinks) navigate(Category.link);
                   }}
                   className="w-full h-full text-center px-2"
                 >
                   {Category.label}
                 </button>
                 {Category.sublinks && (
-                  <div className="absolute group-hover:block hidden hover:block text-center cursor-pointer text-sm text-gray-600 bg-gray-100 w-auto p-3 shadow-md">
-                    <div
-                      className={`grid gap-8 ${
-                        Category.sublinks.length === 1
-                          ? "grid-cols-1"
-                          : Category.sublinks.length === 2
-                          ? "grid-cols-2"
-                          : Category.sublinks.length === 3
-                          ? "grid-cols-3"
-                          : Category.sublinks.length === 4
-                          ? "grid-cols-4"
-                          : "grid-cols-5"
-                      }`}
-                    >
+                  <div className="absolute group-hover:flex hidden hover:flex text-center cursor-pointer text-sm text-gray-600 bg-gray-100 w-auto p-3 shadow-md">
+                    <div className="flex flex-wrap">
                       {Category.sublinks.map((slink) => (
                         <div
                           key={slink.id}
@@ -267,6 +179,121 @@ const CategoriesNavBar :React.FC= () => {
               </div>
             );
           })}
+          {Categories.length > 4 && (
+            <button
+              onClick={() => {
+                setShowMore(!showMore);
+                setHiddenCat(Categories.slice(4, Categories.length));
+              }}
+            >
+              {showMore ? (
+                <div className="flex items-center">
+                  less
+                  <MdExpandMore className="mt-1 ml-1 rotate-180" />
+                </div>
+              ) : (
+                <div className="flex items-center">
+                  more
+                  <MdExpandMore className="mt-1 ml-1" />
+                </div>
+              )}
+            </button>
+          )}
+        </div>
+        {/* show more categories for larger screens */}
+        <div className="hidden sm:flex  items-center justify-evenly h-full w-full">
+          {Categories.slice(0, 8).map((Category: Categories) => {
+            return (
+              <div
+                key={Category.id}
+                className="group hover:bg-gray-100  h-full hover:text-Sapphire "
+              >
+                <button
+                  onClick={() => {
+                    if (!Category.sublinks) navigate(Category.link);
+                  }}
+                  className="w-full h-full text-center px-2"
+                >
+                  {Category.label}
+                </button>
+                {Category.sublinks && (
+                  <div className="absolute group-hover:flex hidden hover:flex text-center cursor-pointer  text-gray-600 bg-gray-100 w-auto p-3 shadow-md">
+                    <div className="flex flex-wrap">
+                      {Category.sublinks.map((slink) => (
+                        <div
+                          key={slink.id}
+                          onClick={() => navigate(slink.link)}
+                          className="p-5"
+                        >
+                          {slink.label}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+          {Categories.length > 8 && (
+            <button
+              onClick={() => {
+                setShowMore(!showMore);
+                setHiddenCat(Categories.slice(8, Categories.length));
+              }}
+            >
+              {showMore ? (
+                <div className="flex items-center">
+                  less
+                  <MdExpandMore className="mt-1 ml-1 rotate-180" />
+                </div>
+              ) : (
+                <div className="flex items-center">
+                  more
+                  <MdExpandMore className="mt-1 ml-1" />
+                </div>
+              )}
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* showing the rest of the categories for all screen sizes */}
+      {showMore && (
+        <div className="bg-Sapphire w-full min-h-8 text-white sm:text-base text-sm shadow-md flex items-center">
+          <div className=" flex flex-wrap">
+            {hiddenCat.map((Category: Categories) => {
+              return (
+                <div
+                  key={Category.id}
+                  className="group hover:bg-gray-100  h-full hover:text-Sapphire  sm:mx-3 sm:p-3 sm:mt-3 m-2"
+                >
+                  <button
+                    onClick={() => {
+                      if (!Category.sublinks) navigate(Category.link);
+                    }}
+                    className="w-full h-full text-center px-2"
+                  >
+                    {Category.label}
+                  </button>
+                  {Category.sublinks && (
+                    <div className="absolute group-hover:flex hidden hover:flex text-center cursor-pointer  text-gray-600 bg-gray-100 w-auto sm:p-3 shadow-md">
+                      <div className="flex flex-wrap">
+                        {Category.sublinks.map((slink) => (
+                          <div
+                            key={slink.id}
+                            onClick={() => navigate(slink.link)}
+                            className="sm:p-5 p-2"
+                          >
+                            {slink.label}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
     </>
