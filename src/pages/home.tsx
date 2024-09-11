@@ -1,5 +1,6 @@
-import React from "react"
-const Home:React.FC=()=>{
-return <h1>Home Page</h1>
-}
-export default Home
+import React from "react";
+import EmblaCarousel from "@/components/homeSlider";
+const Home: React.FC = () => {
+  return <EmblaCarousel />;
+};
+export default Home;
