@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import sideBg from "../assets/sideBg.jpg";
 import logo from "../assets/shopity-logo.svg";
 import useTogglePassword from "../hooks/useTogglePassword";
 import { FcGoogle } from "react-icons/fc";
+import useAuthStore from "@/authStore";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [Icon, dataType]: [React.ComponentType, string] = useTogglePassword();
-
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+  const login = () => {
+    useAuthStore.getState().login({ email, password }, "fake-token");
+    navigate("/");
+  };
   return (
     <>
       <div className="bg-indigo-50 min-h-screen flex items-center justify-center">
@@ -30,6 +38,9 @@ const Login: React.FC = () => {
                 className="border-gray-300 w-full border rounded-md text-sm h-9 p-3 mt-2 focus:outline-none"
                 placeholder="enter your email"
                 required
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                }}
               />
             </div>
             <div className="pt-3 w-full">
@@ -40,6 +51,9 @@ const Login: React.FC = () => {
                   className="border-gray-300 w-full border rounded-md text-sm h-9 p-3 pr-10 mt-2 appearance-none focus:outline-none"
                   placeholder="enter your password"
                   required
+                  onChange={(event) => {
+                    setPassword(event.target.value);
+                  }}
                 />
                 <Icon />
               </div>
@@ -54,6 +68,7 @@ const Login: React.FC = () => {
               <button
                 type="submit"
                 className="w-full h-9 text-white rounded-md bg-indigo-800"
+                onClick={login}
               >
                 Login
               </button>

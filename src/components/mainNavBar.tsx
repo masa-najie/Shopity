@@ -1,17 +1,20 @@
 import React from "react";
 import { Outlet, NavLink } from "react-router-dom";
-import logo from "../assets/shopity-logo.svg";
+import logo from "@/assets/shopity-logo.svg";
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { MdOutlineShoppingCart, MdOutlinePersonOutline } from "react-icons/md";
+import useAuthStore from "@/authStore";
+import ProfileDropDown from "./profileDropDown";
 
-const MainNavBar:React.FC = () => {
+const MainNavBar: React.FC = () => {
   const [showList, setShowList] = useState<boolean>(false);
-
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
   return (
     <>
-      <div className="relative w-full  h-16 flex items-center sm:px-12 sm:justify-center border">
+      <div className="relative w-full  h-16 flex items-center sm:px-12 sm:justify-center">
         <div className="flex items-center sm:w-3/4 w-full h-full sm:justify-center">
           <div className="mr-3 h-1/2 flex sm:h-3/4">
             <img src={logo} />
@@ -41,7 +44,18 @@ const MainNavBar:React.FC = () => {
           </div>
           <div className="flex items-center m-3">
             <MdOutlinePersonOutline className="size-6" />
-            <NavLink to="Login">Login</NavLink>
+            {isAuthenticated ? (
+              <button
+                onClick={() => {
+                  setShowProfileMenu(!showProfileMenu);
+                }}
+              >
+                Profile
+              </button>
+            ) : (
+              <NavLink to="Login">Login</NavLink>
+            )}
+            {showProfileMenu && <ProfileDropDown />}
           </div>
         </div>
         <div className="max-md:flex hidden items-center h-full mr-5 justify-center">
@@ -54,8 +68,9 @@ const MainNavBar:React.FC = () => {
           </button>
         </div>
         {showList && (
-          <div className="absolute top-[60px] right-0 bg-white shadow-lg w-48 p-4 rounded-b-md max-md:block hidden">
-            <div className="flex justify-center items-center">
+          <div className="absolute top-16 right-0 bg-white shadow-lg w-48 p-4 pt-0  block sm:hidden">
+            <div className="flex justify-start items-center mb-2">
+              <MdOutlineShoppingCart className="h-1/6 mt-0.5 mr-3" />
               <NavLink
                 to="Cart"
                 className="block py-2 text-black hover:bg-gray-100"
@@ -63,9 +78,9 @@ const MainNavBar:React.FC = () => {
               >
                 Cart
               </NavLink>
-              <MdOutlineShoppingCart className="h-1/6 ml-2 mt-0.5" />
             </div>
-            <div className="flex justify-center items-center">
+            <div className="flex justify-start items-center mb-2">
+              <CiHeart className="h-1/6 mt-0.5 mr-3" />
               <NavLink
                 to="WishList"
                 className="block py-2 text-black hover:bg-gray-100"
@@ -73,17 +88,27 @@ const MainNavBar:React.FC = () => {
               >
                 Wishlist
               </NavLink>
-              <CiHeart className="h-1/6 ml-2 mt-0.5" />
             </div>
-            <div className="flex justify-center items-center">
-              <NavLink
-                to="Login"
-                className=" py-2 text-black hover:bg-gray-100"
-              >
-                Login
-              </NavLink>
-              <MdOutlinePersonOutline className="h-1/6 ml-2 mt-0.5" />
+            <div className="flex justify-start items-center mb-2">
+              <MdOutlinePersonOutline className="h-1/6 mt-0.5 mr-3" />
+              {isAuthenticated ? (
+                <button
+                  onClick={() => {
+                    setShowProfileMenu(!showProfileMenu);
+                  }}
+                >
+                  Profile
+                </button>
+              ) : (
+                <NavLink
+                  to="Login"
+                  className=" py-2 text-black hover:bg-gray-100"
+                >
+                  Login
+                </NavLink>
+              )}
             </div>
+            {showProfileMenu && <ProfileDropDown />}
           </div>
         )}
       </div>

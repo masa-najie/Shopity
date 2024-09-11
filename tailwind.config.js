@@ -6,9 +6,6 @@ export default {
       colors: {
         Sapphire: "#2C4498",
       },
-      screens: {
-        "max-md": { max: "639px" },
-      },
     },
   },
   plugins: [],
