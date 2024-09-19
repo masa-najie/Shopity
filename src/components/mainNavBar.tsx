@@ -36,11 +36,11 @@ const MainNavBar: React.FC = () => {
         <div className="items-center h-full  sm:flex hidden lg:text-lg text-sm">
           <div className="flex items-center m-3">
             <CiHeart className="size-6" />
-            <NavLink to="WishList">Wishlist</NavLink>
+            <NavLink to="wishList">Wishlist</NavLink>
           </div>
           <div className="flex items-center m-3">
             <MdOutlineShoppingCart className="size-6" />
-            <NavLink to="Cart">Cart</NavLink>
+            <NavLink to="cart">Cart</NavLink>
           </div>
           <div className="flex items-center m-3">
             <MdOutlinePersonOutline className="size-6" />
@@ -53,7 +53,7 @@ const MainNavBar: React.FC = () => {
                 Profile
               </button>
             ) : (
-              <NavLink to="Login">Login</NavLink>
+              <NavLink to="login">Login</NavLink>
             )}
             {showProfileMenu && <ProfileDropDown />}
           </div>
@@ -72,7 +72,7 @@ const MainNavBar: React.FC = () => {
             <div className="flex justify-start items-center mb-2">
               <MdOutlineShoppingCart className="h-1/6 mt-0.5 mr-3" />
               <NavLink
-                to="Cart"
+                to="cart"
                 className="block py-2 text-black hover:bg-gray-100"
                 onClick={() => setShowList(false)}
               >
@@ -82,7 +82,7 @@ const MainNavBar: React.FC = () => {
             <div className="flex justify-start items-center mb-2">
               <CiHeart className="h-1/6 mt-0.5 mr-3" />
               <NavLink
-                to="WishList"
+                to="wishList"
                 className="block py-2 text-black hover:bg-gray-100"
                 onClick={() => setShowList(false)}
               >
@@ -101,7 +101,7 @@ const MainNavBar: React.FC = () => {
                 </button>
               ) : (
                 <NavLink
-                  to="Login"
+                  to="login"
                   className=" py-2 text-black hover:bg-gray-100"
                 >
                   Login

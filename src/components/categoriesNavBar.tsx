@@ -139,6 +139,23 @@ const CategoriesNavBar: React.FC = () => {
       link: "/books",
       sublinks: null,
     },
+    {
+      id: "11",
+      label: "kitchen",
+      link: "/kitchen",
+      sublinks: [
+        {
+          id: "1",
+          label: "men",
+          link: "/plus-size/men",
+        },
+        {
+          id: "2",
+          label: "women",
+          link: "/plus-size/women",
+        },
+      ],
+    },
   ]);
   const [hiddenCat, setHiddenCat] = useState<Categories[]>([]);
   const [showMore, setShowMore] = useState<boolean>(false);
@@ -206,7 +223,7 @@ const CategoriesNavBar: React.FC = () => {
             return (
               <div
                 key={Category.id}
-                className="group hover:bg-gray-100  h-full hover:text-Sapphire "
+                className="group   h-full  transition-all hover:text-Sapphire hover:bg-gray-100 duration-500"
               >
                 <button
                   onClick={() => {
@@ -217,7 +234,7 @@ const CategoriesNavBar: React.FC = () => {
                   {Category.label}
                 </button>
                 {Category.sublinks && (
-                  <div className="absolute group-hover:flex hidden hover:flex text-center cursor-pointer  text-gray-600 bg-gray-100 w-auto p-3 shadow-md">
+                  <div className="absolute text-center cursor-pointer invisible  text-gray-600 bg-gray-100 w-auto p-3 shadow-md  transition-all  group-hover:visible duration-200">
                     <div className="flex flex-wrap">
                       {Category.sublinks.map((slink) => (
                         <div
@@ -259,13 +276,13 @@ const CategoriesNavBar: React.FC = () => {
 
       {/* showing the rest of the categories for all screen sizes */}
       {showMore && (
-        <div className="bg-Sapphire w-full min-h-8 text-white sm:text-base text-sm shadow-md flex items-center">
+        <div className="bg-Sapphire w-full min-h-8 text-white sm:text-base text-sm shadow-md flex items-center justify-around pt-2">
           <div className=" flex flex-wrap">
             {hiddenCat.map((Category: Categories) => {
               return (
                 <div
                   key={Category.id}
-                  className="group hover:bg-gray-100  h-full hover:text-Sapphire  sm:mx-3 sm:p-3 sm:mt-3 m-2"
+                  className="group   h-full   sm:mx-10  sm:mt-3 m-2 transition-all hover:text-Sapphire hover:bg-gray-100 duration-500"
                 >
                   <button
                     onClick={() => {
@@ -276,7 +293,7 @@ const CategoriesNavBar: React.FC = () => {
                     {Category.label}
                   </button>
                   {Category.sublinks && (
-                    <div className="absolute group-hover:flex hidden hover:flex text-center cursor-pointer  text-gray-600 bg-gray-100 w-auto sm:p-3 shadow-md">
+                    <div className="absolute invisible text-center cursor-pointer text-gray-600 bg-gray-100 w-auto sm:p-3 shadow-md transition-all  group-hover:visible duration-200">
                       <div className="flex flex-wrap">
                         {Category.sublinks.map((slink) => (
                           <div

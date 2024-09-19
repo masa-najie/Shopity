@@ -12,14 +12,14 @@ const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
-        <Route path="Login" element={<Login />} />
+        <Route path="login" element={<Login />} />
         <Route path="/" element={<HomeLayout />}>
           <Route index element={<Home />} />
         </Route>
       </Route>
     )
   );
-  return <RouterProvider router={router}/>
+  return <RouterProvider router={router} />;
 };
 
 export default App;

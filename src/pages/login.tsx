@@ -5,15 +5,66 @@ import useTogglePassword from "../hooks/useTogglePassword";
 import { FcGoogle } from "react-icons/fc";
 import useAuthStore from "@/authStore";
 import { useNavigate } from "react-router-dom";
-
+import Swal from "sweetalert2";
+import { ApiResponse, User } from "@/types";
 const Login: React.FC = () => {
   const [Icon, dataType]: [React.ComponentType, string] = useTogglePassword();
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  const login = () => {
-    useAuthStore.getState().login({ email, password }, "fake-token");
-    navigate("/");
+  interface FormData {
+    email: string;
+    password: string;
+  }
+  const [formData, setFormData] = useState<FormData>({
+    email: "",
+    password: "",
+  });
+  const handelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+  const login = async () => {
+    setLoading(true);
+
+    if (formData.email != "" && formData.password != "") {
+      interface loginData {
+        user: User;
+        token: string;
+        refresh_token: string;
+      }
+      const response = await fetch(
+        "http://ecommerce-backend.cubeta.io/api/v1/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+      const data: ApiResponse<loginData> = await response.json();
+      // console.log(data);
+
+      if (!response.ok) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "the data you just entered is not correct, please try again.",
+        });
+        setLoading(false);
+        return;
+      }
+      useAuthStore.getState().login(formData, data.data.token);
+      navigate("/");
+    } else
+      Swal.fire({
+        icon: "info",
+        text: "please enter your email and password to continue.",
+      });
+    setLoading(false);
   };
   return (
     <>
@@ -34,26 +85,24 @@ const Login: React.FC = () => {
             <div className="pt-6 w-full">
               <label>Email:</label>
               <input
+                name="email"
                 type="email"
                 className="border-gray-300 w-full border rounded-md text-sm h-9 p-3 mt-2 focus:outline-none"
                 placeholder="enter your email"
                 required
-                onChange={(event) => {
-                  setEmail(event.target.value);
-                }}
+                onChange={handelChange}
               />
             </div>
             <div className="pt-3 w-full">
               <label>Password:</label>
               <div className="relative w-full">
                 <input
+                  name="password"
                   type={dataType}
                   className="border-gray-300 w-full border rounded-md text-sm h-9 p-3 pr-10 mt-2 appearance-none focus:outline-none"
                   placeholder="enter your password"
                   required
-                  onChange={(event) => {
-                    setPassword(event.target.value);
-                  }}
+                  onChange={handelChange}
                 />
                 <Icon />
               </div>
@@ -69,6 +118,7 @@ const Login: React.FC = () => {
                 type="submit"
                 className="w-full h-9 text-white rounded-md bg-indigo-800"
                 onClick={login}
+                disabled={loading}
               >
                 Login
               </button>
@@ -77,6 +127,7 @@ const Login: React.FC = () => {
             <button
               type="submit"
               className="w-full h-9 rounded-md border-gray-300 border mt-6 text-blue-900 font-bold flex justify-center items-center"
+              onClick={login}
             >
               <FcGoogle className="mr-2 size-5" />
               <span className="text-xs">Login using Google account</span>

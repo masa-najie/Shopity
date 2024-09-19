@@ -6,6 +6,7 @@ import {
 } from "react-icons/md";
 import { GrLocation } from "react-icons/gr";
 import { RiCoupon3Line } from "react-icons/ri";
+import useAuthStore from "@/authStore";
 const ProfileDropDown: React.FC = () => {
   return (
     <>
@@ -48,7 +49,13 @@ const ProfileDropDown: React.FC = () => {
         </div>
         <div className="flex justify-start items-center mb-2">
           <MdLogout className="mr-3" />
-          <button className="block py-2 text-black hover:bg-gray-100">
+          <button
+            className="block py-2 text-black hover:bg-gray-100"
+            onClick={() => {
+              useAuthStore.getState().logout();
+              window.location.reload();
+            }}
+          >
             Log out
           </button>
         </div>
