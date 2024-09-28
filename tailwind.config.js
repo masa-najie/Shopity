@@ -6,6 +6,9 @@ export default {
       colors: {
         Sapphire: "#2C4498",
       },
+      fontFamily: {
+        sans: ["Poppins", "sans-serif"],
+      },
     },
   },
   plugins: [],

@@ -8,6 +8,20 @@ import { GrLocation } from "react-icons/gr";
 import { RiCoupon3Line } from "react-icons/ri";
 import useAuthStore from "@/authStore";
 const ProfileDropDown: React.FC = () => {
+  const logout = () => {
+    // const response = fetch(
+    //   "http://ecommerce-backend.cubeta.io/api/v1/auth/logout",
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "Bearer Token": "",
+    //     },
+    //   }
+    // // );
+    // useAuthStore.getState().logout();
+    //           window.location.reload();
+  };
   return (
     <>
       <div className="absolute sm:top-16 right-0  bg-white shadow-lg sm:w-46 px-4 mt-3 sm:mt-0 w-48">
@@ -52,8 +66,7 @@ const ProfileDropDown: React.FC = () => {
           <button
             className="block py-2 text-black hover:bg-gray-100"
             onClick={() => {
-              useAuthStore.getState().logout();
-              window.location.reload();
+              console.log(useAuthStore.getState().token);
             }}
           >
             Log out

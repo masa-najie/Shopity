@@ -1,11 +1,11 @@
 import React from "react";
-import EmblaCarousel from "@/components/homeSlider";
+import AdSlider from "@/components/adSlider";
 
 const Home: React.FC = () => {
   return (
     <>
       <div>
-        <EmblaCarousel />
+        <AdSlider />
       </div>
     </>
   );

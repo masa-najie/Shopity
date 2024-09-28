@@ -1,15 +1,18 @@
 import React from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import img4 from "@/assets/slide1.jpg";
+import img1 from "@/assets/slide1.jpg";
 import img2 from "@/assets/slide2.jpg";
 import img3 from "@/assets/slide3.jpg";
-import img1 from "@/assets/Mask-group.png";
+import img4 from "@/assets/Mask-group.png";
+
 import AdBanner from "./adBanner";
 import { AdBannerProps } from "@/types";
 
-const EmblaCarousel: React.FC = () => {
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()]);
+const AdSlider: React.FC = () => {
+  const [emblaRef] = useEmblaCarousel({ loop: true }, [
+    Autoplay({ stopOnMouseEnter: true, stopOnInteraction: false }),
+  ]);
 
   const ads: AdBannerProps[] = [
     {
@@ -23,7 +26,7 @@ const EmblaCarousel: React.FC = () => {
       imgSrc: img2,
       header: "sale",
       description: "50% off",
-      button: { name: "helllo" },
+      button: { name: "helllo", link: "www.google.com" },
     },
     {
       id: 3,
@@ -39,26 +42,21 @@ const EmblaCarousel: React.FC = () => {
     },
   ];
   return (
-    <div className="overflow-hidden relative -z-50" ref={emblaRef}>
+    <div className=" relative overflow-hidden" ref={emblaRef}>
       <div className="flex">
         {ads.map((ad: AdBannerProps) => {
           return (
-            <div
-              className=" min-w-0 flex flex-grow-0 flex-shrink-0 basis-full  justify-center"
+            <AdBanner
+              imgSrc={ad.imgSrc}
+              header={ad.header}
+              description={ad.description}
+              button={ad.button}
               key={ad.id}
-            >
-              <AdBanner
-                imgSrc={ad.imgSrc}
-                header={ad.header}
-                id={ad.id}
-                description={ad.description}
-                button={ad.button}
-              />
-            </div>
+            />
           );
         })}
       </div>
     </div>
   );
 };
-export default EmblaCarousel;
+export default AdSlider;

@@ -1,10 +1,10 @@
 // ads
 export interface AdBannerProps {
-  id: number;
+  id?: number;
   imgSrc: string;
   header?: string;
   description?: string;
-  button?: { name: string; link?: string };
+  button?: { name: string; link: string };
 }
 // backend responses
 export interface ApiResponse<T> {

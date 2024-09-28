@@ -179,7 +179,7 @@ const CategoriesNavBar: React.FC = () => {
                   {Category.label}
                 </button>
                 {Category.sublinks && (
-                  <div className="absolute group-hover:flex hidden hover:flex text-center cursor-pointer text-sm text-gray-600 bg-gray-100 w-auto p-3 shadow-md">
+                  <div className="absolute group-hover:flex hidden hover:flex text-center cursor-pointer text-sm text-gray-600 bg-gray-100 w-auto p-3 shadow-md z-50">
                     <div className="flex flex-wrap">
                       {Category.sublinks.map((slink) => (
                         <div
@@ -234,7 +234,7 @@ const CategoriesNavBar: React.FC = () => {
                   {Category.label}
                 </button>
                 {Category.sublinks && (
-                  <div className="absolute text-center cursor-pointer invisible  text-gray-600 bg-gray-100 w-auto p-3 shadow-md  transition-all  group-hover:visible duration-200">
+                  <div className="absolute text-center cursor-pointer invisible  text-gray-600 bg-gray-100 w-auto p-3 shadow-md  transition-all  group-hover:visible duration-200 z-50">
                     <div className="flex flex-wrap">
                       {Category.sublinks.map((slink) => (
                         <div
@@ -293,7 +293,7 @@ const CategoriesNavBar: React.FC = () => {
                     {Category.label}
                   </button>
                   {Category.sublinks && (
-                    <div className="absolute invisible text-center cursor-pointer text-gray-600 bg-gray-100 w-auto sm:p-3 shadow-md transition-all  group-hover:visible duration-200">
+                    <div className="absolute invisible text-center cursor-pointer text-gray-600 bg-gray-100 w-auto sm:p-3 shadow-md transition-all  group-hover:visible duration-200 z-50">
                       <div className="flex flex-wrap">
                         {Category.sublinks.map((slink) => (
                           <div
