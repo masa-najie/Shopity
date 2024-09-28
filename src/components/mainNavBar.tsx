@@ -68,7 +68,7 @@ const MainNavBar: React.FC = () => {
           </button>
         </div>
         {showList && (
-          <div className="absolute top-16 right-0 bg-white shadow-lg w-48 p-4 pt-0  block sm:hidden">
+          <div className="absolute top-16 right-0 bg-white shadow-lg w-48 p-4 pt-0  block sm:hidden z-50">
             <div className="flex justify-start items-center mb-2">
               <MdOutlineShoppingCart className="h-1/6 mt-0.5 mr-3" />
               <NavLink
@@ -101,7 +101,7 @@ const MainNavBar: React.FC = () => {
                 </button>
               ) : (
                 <NavLink
-                  to="login"
+                  to="/login"
                   className=" py-2 text-black hover:bg-gray-100"
                 >
                   Login

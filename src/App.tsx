@@ -8,11 +8,13 @@ import {
 import Login from "./pages/login";
 import Home from "./pages/home";
 import HomeLayout from "./layouts/homeLayout";
+import Register from "./pages/register";
 const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
         <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
         <Route path="/" element={<HomeLayout />}>
           <Route index element={<Home />} />
         </Route>
