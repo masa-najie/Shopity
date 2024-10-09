@@ -7,7 +7,6 @@ import { FcGoogle } from "react-icons/fc";
 import useAuthStore from "@/authStore";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
-import { ApiResponse, User } from "@/types";
 import Link from "next/link";
 import { useState } from "react";
 const Register: React.FC = () => {
