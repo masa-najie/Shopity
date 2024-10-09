@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import Link from "next/link";
 import {
   MdOutlinePersonOutline,
   MdOutlineShoppingCart,
@@ -32,39 +32,39 @@ const ProfileDropDown: React.FC = () => {
       <div className="absolute sm:top-16 right-0  bg-white shadow-lg sm:w-46 px-4 mt-3 sm:mt-0 w-48 z-50">
         <div className="flex justify-start items-center mb-2">
           <MdOutlinePersonOutline className="mr-3" />
-          <NavLink
-            to="Account"
+          <Link
+            href="Account"
             className="block py-2 text-black hover:bg-gray-100 "
           >
             My Account
-          </NavLink>
+          </Link>
         </div>
         <div className="flex justify-start items-center mb-2">
           <MdOutlineShoppingCart className="mr-3" />
-          <NavLink
-            to="orders"
+          <Link
+            href="orders"
             className="block py-2 text-black hover:bg-gray-100"
           >
             My Orders
-          </NavLink>
+          </Link>
         </div>
         <div className="flex justify-start items-center mb-2">
           <GrLocation className="mr-3" />
-          <NavLink
-            to="Saved-Address"
+          <Link
+            href="Saved-Address"
             className="block py-2 text-black hover:bg-gray-100"
           >
             Saved Address
-          </NavLink>
+          </Link>
         </div>
         <div className="flex justify-start items-center mb-2">
           <RiCoupon3Line className="mr-3" />
-          <NavLink
-            to="Coupons"
+          <Link
+            href="Coupons"
             className="block py-2 text-black hover:bg-gray-100"
           >
             My Coupons
-          </NavLink>
+          </Link>
         </div>
         <div className="flex justify-start items-center mb-2">
           <MdLogout className="mr-3" />

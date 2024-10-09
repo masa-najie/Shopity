@@ -1,9 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import { MdExpandMore } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 const CategoriesNavBar: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   interface Sublink {
     id: string;
     label: string;
@@ -172,7 +172,7 @@ const CategoriesNavBar: React.FC = () => {
               >
                 <button
                   onClick={() => {
-                    if (!Category.sublinks) navigate(Category.link);
+                    if (!Category.sublinks) router.push(Category.link);
                   }}
                   className="w-full h-full text-center px-2"
                 >
@@ -184,7 +184,7 @@ const CategoriesNavBar: React.FC = () => {
                       {Category.sublinks.map((slink) => (
                         <div
                           key={slink.id}
-                          onClick={() => navigate(slink.link)}
+                          onClick={() => router.push(slink.link)}
                           className="p-2"
                         >
                           {slink.label}
@@ -227,7 +227,7 @@ const CategoriesNavBar: React.FC = () => {
               >
                 <button
                   onClick={() => {
-                    if (!Category.sublinks) navigate(Category.link);
+                    if (!Category.sublinks) router.push(Category.link);
                   }}
                   className="w-full h-full text-center px-2"
                 >
@@ -239,7 +239,7 @@ const CategoriesNavBar: React.FC = () => {
                       {Category.sublinks.map((slink) => (
                         <div
                           key={slink.id}
-                          onClick={() => navigate(slink.link)}
+                          onClick={() => router.push(slink.link)}
                           className="p-5"
                         >
                           {slink.label}
@@ -286,7 +286,7 @@ const CategoriesNavBar: React.FC = () => {
                 >
                   <button
                     onClick={() => {
-                      if (!Category.sublinks) navigate(Category.link);
+                      if (!Category.sublinks) router.push(Category.link);
                     }}
                     className="w-full h-full text-center px-2"
                   >
@@ -298,7 +298,7 @@ const CategoriesNavBar: React.FC = () => {
                         {Category.sublinks.map((slink) => (
                           <div
                             key={slink.id}
-                            onClick={() => navigate(slink.link)}
+                            onClick={() => router.push(slink.link)}
                             className="sm:p-5 p-2"
                           >
                             {slink.label}

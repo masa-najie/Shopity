@@ -1,5 +1,4 @@
 import React from "react";
-import { Outlet, NavLink } from "react-router-dom";
 import logo from "@/assets/shopity-logo.svg";
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
@@ -7,6 +6,7 @@ import { CiHeart } from "react-icons/ci";
 import { MdOutlineShoppingCart, MdOutlinePersonOutline } from "react-icons/md";
 import useAuthStore from "@/authStore";
 import ProfileDropDown from "./profileDropDown";
+import Link from "next/link";
 
 const MainNavBar: React.FC = () => {
   const [showList, setShowList] = useState<boolean>(false);
@@ -17,7 +17,7 @@ const MainNavBar: React.FC = () => {
       <div className="relative w-full  h-16 flex items-center sm:px-12 sm:justify-center">
         <div className="flex items-center sm:w-3/4 w-full h-full sm:justify-center">
           <div className="mr-3 h-1/2 flex sm:h-3/4">
-            <img src={logo} />
+            <img src={logo.src} />
           </div>
           <div className="h-1/2 flex items-center w-3/5">
             <input
@@ -36,11 +36,11 @@ const MainNavBar: React.FC = () => {
         <div className="items-center h-full  sm:flex hidden lg:text-lg text-sm">
           <div className="flex items-center m-3">
             <CiHeart className="size-6" />
-            <NavLink to="wishList">Wishlist</NavLink>
+            <Link href="wishList">Wishlist</Link>
           </div>
           <div className="flex items-center m-3">
             <MdOutlineShoppingCart className="size-6" />
-            <NavLink to="cart">Cart</NavLink>
+            <Link href="cart">Cart</Link>
           </div>
           <div className="flex items-center m-3">
             <MdOutlinePersonOutline className="size-6" />
@@ -53,7 +53,7 @@ const MainNavBar: React.FC = () => {
                 Profile
               </button>
             ) : (
-              <NavLink to="login">Login</NavLink>
+              <Link href="login">Login</Link>
             )}
             {showProfileMenu && <ProfileDropDown />}
           </div>
@@ -71,23 +71,23 @@ const MainNavBar: React.FC = () => {
           <div className="absolute top-16 right-0 bg-white shadow-lg w-48 p-4 pt-0  block sm:hidden z-50">
             <div className="flex justify-start items-center mb-2">
               <MdOutlineShoppingCart className="h-1/6 mt-0.5 mr-3" />
-              <NavLink
-                to="cart"
+              <Link
+                href="cart"
                 className="block py-2 text-black hover:bg-gray-100"
                 onClick={() => setShowList(false)}
               >
                 Cart
-              </NavLink>
+              </Link>
             </div>
             <div className="flex justify-start items-center mb-2">
               <CiHeart className="h-1/6 mt-0.5 mr-3" />
-              <NavLink
-                to="wishList"
+              <Link
+                href="wishList"
                 className="block py-2 text-black hover:bg-gray-100"
                 onClick={() => setShowList(false)}
               >
                 Wishlist
-              </NavLink>
+              </Link>
             </div>
             <div className="flex justify-start items-center mb-2">
               <MdOutlinePersonOutline className="h-1/6 mt-0.5 mr-3" />
@@ -100,12 +100,12 @@ const MainNavBar: React.FC = () => {
                   Profile
                 </button>
               ) : (
-                <NavLink
-                  to="/login"
+                <Link
+                  href="/login"
                   className=" py-2 text-black hover:bg-gray-100"
                 >
                   Login
-                </NavLink>
+                </Link>
               )}
             </div>
             {showProfileMenu && <ProfileDropDown />}

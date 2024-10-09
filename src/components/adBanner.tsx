@@ -1,13 +1,13 @@
 import React from "react";
 import { AdBannerProps } from "@/types";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 const AdBanner: React.FC<AdBannerProps> = ({
   imgSrc,
   header,
   description,
   button,
 }) => {
-  const navigate = useNavigate();
+  const router = useRouter();
   return (
     <div className=" min-w-0 flex flex-grow-0 flex-shrink-0 basis-full justify-center">
       <div
@@ -24,7 +24,7 @@ const AdBanner: React.FC<AdBannerProps> = ({
           {button && (
             <button
               onClick={() => {
-                navigate(button.link!);
+                router.push(button.link!);
               }}
               className="bg-Sapphire px-6 py-2 rounded-md sm:text-4xl text-md text-white shadow-lg text-center"
             >

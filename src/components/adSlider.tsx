@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
@@ -17,26 +19,26 @@ const AdSlider: React.FC = () => {
   const ads: AdBannerProps[] = [
     {
       id: 1,
-      imgSrc: img1,
+      imgSrc: img1.src,
       header: "sale",
       description: "50% off",
     },
     {
       id: 2,
-      imgSrc: img2,
+      imgSrc: img2.src,
       header: "sale",
       description: "50% off",
       button: { name: "helllo", link: "www.google.com" },
     },
     {
       id: 3,
-      imgSrc: img3,
+      imgSrc: img3.src,
       header: "sale",
       description: "50% off",
     },
     {
       id: 4,
-      imgSrc: img4,
+      imgSrc: img4.src,
       header: "sale",
       description: "50% off",
     },
