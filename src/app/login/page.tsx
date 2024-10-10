@@ -5,11 +5,11 @@ import sideBg from "@/assets/sideBg.jpg";
 import logo from "@/assets/shopity-logo.svg";
 import { FcGoogle } from "react-icons/fc";
 import useAuthStore from "@/authStore";
-import Swal from "sweetalert2";
-import { ApiResponse, User } from "@/types";
+import { ApiResponse, AuthData, Error } from "@/types";
 import { useRouter } from "next/navigation";
 import useTogglePassword from "@/hooks/useTogglePassword";
 import Link from "next/link";
+import Swal from "sweetalert2";
 const Login: React.FC = () => {
   const [Icon, dataType]: [React.ComponentType, string] = useTogglePassword();
   const [loading, setLoading] = useState<boolean>(false);
@@ -18,6 +18,7 @@ const Login: React.FC = () => {
     email: string;
     password: string;
   }
+  const [error, setError] = useState<FormData>();
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
@@ -33,11 +34,6 @@ const Login: React.FC = () => {
     setLoading(true);
 
     if (formData.email != "" && formData.password != "") {
-      interface loginData {
-        user: User;
-        token: string;
-        refresh_token: string;
-      }
       const response = await fetch(
         "http://ecommerce-backend.cubeta.io/api/v1/auth/login",
         {
@@ -48,19 +44,25 @@ const Login: React.FC = () => {
           body: JSON.stringify(formData),
         }
       );
-      const data: ApiResponse<loginData> = await response.json();
-      // console.log(data);
-
-      if (!response.ok) {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "the data you just entered is not correct, please try again.",
-        });
+      if (response.ok) {
+        {
+          const data: ApiResponse<AuthData> = await response.json();
+          useAuthStore.getState().login(formData, data.data.token);
+          console.log(data);
+        }
+      } else {
+        const data: Error<FormData> = await response.json();
+        if (data.code == 405) setError(data.message.errors);
+        else {
+          Swal.fire({
+            icon: "error",
+            text: "the data you entered doesn't exist.",
+          });
+        }
         setLoading(false);
         return;
       }
-      useAuthStore.getState().login(formData, data.data.token);
+
       router.push("/home");
     } else
       Swal.fire({
@@ -95,6 +97,9 @@ const Login: React.FC = () => {
                 required
                 onChange={handelChange}
               />
+              {error?.email && (
+                <p className="text-red-700 text-sm  mt-2">{error.email}</p>
+              )}
             </div>
             <div className="pt-3 w-full">
               <label>Password:</label>
@@ -108,6 +113,9 @@ const Login: React.FC = () => {
                   onChange={handelChange}
                 />
                 <Icon />
+                {error?.password && (
+                  <p className="text-red-700 text-sm  mt-2">{error.password}</p>
+                )}
               </div>
             </div>
             <div className="pt-3 w-full flex items-center">

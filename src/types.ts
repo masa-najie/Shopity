@@ -14,6 +14,16 @@ export interface ApiResponse<T> {
   code: number;
   paginate: any;
 }
+export interface Error<T> {
+  data: string;
+  status: boolean;
+  message: {
+    errors: T;
+    text: string;
+  };
+  code: number;
+  paginate: any;
+}
 
 export interface User {
   id: number;
@@ -33,4 +43,9 @@ export interface Image {
   file_url: string;
   size: string;
   collection: string;
+}
+export interface AuthData {
+  user: User;
+  token: string;
+  refresh_token: string;
 }

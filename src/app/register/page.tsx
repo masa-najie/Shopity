@@ -6,14 +6,15 @@ import useTogglePassword from "@/hooks/useTogglePassword";
 import { FcGoogle } from "react-icons/fc";
 import useAuthStore from "@/authStore";
 import { useRouter } from "next/navigation";
-import Swal from "sweetalert2";
 import Link from "next/link";
+import { ApiResponse, AuthData, Error } from "@/types";
 import { useState } from "react";
 const Register: React.FC = () => {
   const [Icon, dataType]: [React.ComponentType, string] = useTogglePassword();
   const [IconC, dataTypeC]: [React.ComponentType, string] = useTogglePassword();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<FormData>();
   interface FormData {
     first_name: string;
     last_name: string;
@@ -38,7 +39,7 @@ const Register: React.FC = () => {
     });
   };
   const register = async () => {
-    setLoading;
+    setLoading(true);
     const response = await fetch(
       "http://ecommerce-backend.cubeta.io/api/v1/auth/register",
       {
@@ -49,23 +50,16 @@ const Register: React.FC = () => {
         body: JSON.stringify(formData),
       }
     );
-    const data = await response.json();
-    console.log(data);
-    if (!response.ok) {
-      if (data.code == 405)
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "this email is already taken .",
-        });
+    if (response.ok) {
+      const data: ApiResponse<AuthData> = await response.json();
+      console.log(data);
+      useAuthStore.getState().login(formData, data.data.token);
+    } else {
+      const data: Error<FormData> = await response.json();
+      if (data.code == 405) setError(data.message.errors);
       setLoading(false);
       return;
-    } else
-      Swal.fire({
-        icon: "info",
-        text: "please enter your information to continue.",
-      });
-    useAuthStore.getState().login(formData, data.data.token);
+    }
     router.push("/home");
     setLoading(false);
   };
@@ -93,6 +87,9 @@ const Register: React.FC = () => {
                 required
                 onChange={handelChange}
               />
+              {error?.first_name && (
+                <p className="text-red-700 text-sm mt-2">{error.first_name}</p>
+              )}
             </div>
             <div className="pt-3 w-full">
               <label>Last Name:</label>
@@ -103,7 +100,10 @@ const Register: React.FC = () => {
                 placeholder="enter your last name"
                 required
                 onChange={handelChange}
-              />
+              />{" "}
+              {error?.last_name && (
+                <p className="text-red-700 text-sm  mt-2">{error.last_name}</p>
+              )}
             </div>
             <div className="pt-3 w-full">
               <label>Email:</label>
@@ -115,6 +115,9 @@ const Register: React.FC = () => {
                 required
                 onChange={handelChange}
               />
+              {error?.email && (
+                <p className="text-red-700 text-sm  mt-2">{error.email}</p>
+              )}
             </div>
             <div className="pt-3 w-full">
               <label>Phone Number:</label>
@@ -126,6 +129,9 @@ const Register: React.FC = () => {
                 required
                 onChange={handelChange}
               />
+              {error?.phone && (
+                <p className="text-red-700 text-sm  mt-2">{error.phone}</p>
+              )}
             </div>
             <div className="pt-3 w-full">
               <label>Password:</label>
@@ -138,7 +144,11 @@ const Register: React.FC = () => {
                   required
                   onChange={handelChange}
                 />
+
                 <Icon />
+                {error?.password && (
+                  <p className="text-red-700 text-sm  mt-2">{error.password}</p>
+                )}
               </div>
             </div>
             <div className="py-3 w-full">
@@ -175,7 +185,6 @@ const Register: React.FC = () => {
             <button
               type="submit"
               className="w-full h-9 rounded-md border-gray-300 border mt-6 text-blue-900 font-bold flex justify-center items-center"
-              // onClick={login}
             >
               <FcGoogle className="mr-2 size-5" />
               <span className="text-xs">Register using Google account</span>
